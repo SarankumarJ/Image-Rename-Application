@@ -1,0 +1,48 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rename Image</title>
+    <!-- Import local Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>Rename Image</h1>
+        <img src="../../media/original_images/{{ image_file }}" alt="{{ image_file }}" class="img-thumbnail">
+        <p>Current Name: {{ image_file }}</p>
+        <form id="renameForm" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="newName">New Name:</label>
+                <input type="text" id="newName" name="newName" class="form-control" required>
+            </div>
+            <button type="button" class="btn btn-primary" id="confirmBtn">Save</button>
+        </form>
+    </div>
+    <!-- Footer -->
+    <footer class="footer mt-auto py-3 bg-light">
+        <div class="container text-center">
+            <span class="text-muted">Copyright &copy; 2024 Saveetha Engineering College - Tech Society</span>
+        </div>
+    </footer>
+    <!-- Import local jQuery -->
+    <script src="{% static 'js/jquery-3.7.0.min.js' %}"></script>
+    <!-- Import local Bootstrap JavaScript -->
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script>
+        $(document).ready(function() {
+            // Add event listener to the save button
+            $("#confirmBtn").click(function() {
+                // Display a confirmation dialog
+                if (confirm("Are you sure you want to save?")) {
+                    // If user confirms, submit the form
+                    $("#renameForm").submit();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
