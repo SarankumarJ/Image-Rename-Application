@@ -17,6 +17,16 @@ def rename_image(request, image_name):
         original_image_path = os.path.join(original_images_dir, image_name)
         new_image_path = os.path.join(renamed_images_dir, new_name + '.png')
 
+        # Check if the original image exists and if the new name is not already taken
+        #if exists append a number to the new name
+        if os.path.exists(new_image_path):
+            i = 1
+            while True:
+                new_image_path = os.path.join(renamed_images_dir, new_name + f'_{i}.png')
+                if not os.path.exists(new_image_path):
+                    break
+                i += 1
+
         try:
             os.rename(original_image_path, new_image_path)
             messages.success(request, 'Image renamed successfully!')
