@@ -2,11 +2,15 @@ import os
 from django.conf import settings
 from django.contrib import messages
 from django.shortcuts import render, redirect
+import random
 
 def index(request):
     original_images_dir = os.path.join(settings.MEDIA_ROOT, 'original_images')
     image_files = [f for f in os.listdir(original_images_dir) if f.endswith('.png')]
-    return render(request, 'image_renamer/index.html', {'image_files': image_files})
+    random.shuffle(image_files)
+
+    pending_images=len(image_files)
+    return render(request, 'image_renamer/index.html', {'image_files': image_files,'pending_files':pending_images})
 
 def rename_image(request, image_name):
     original_images_dir = os.path.join(settings.MEDIA_ROOT, 'original_images')
