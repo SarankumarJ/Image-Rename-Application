@@ -19,8 +19,10 @@
                 <label for="newName">New Name:</label>
                 <input type="text" id="newName" name="newName" class="form-control" required>
             </div>
+            <!-- Display character count -->
+            <span id="charCount">0</span> characters entered.
             <div class='align-center my-3 text-center'>
-            <button type="button" class="btn btn-success justify-center align-center" id="confirmBtn">Save</button>
+                <button type="button" class="btn btn-success justify-center align-center" id="confirmBtn">Save</button>
             </div>
         </form>
     </div>
@@ -36,8 +38,23 @@
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <script>
         $(document).ready(function() {
+            // Add event listener to the input field
+            $("#newName").on("input", function() {
+                // Update the character count
+                var charCount = $(this).val().length;
+                $("#charCount").text(charCount);
+            });
+
             // Add event listener to the save button
             $("#confirmBtn").click(function() {
+                // Validate the input format before submitting the form
+                var newName = $("#newName").val().trim();
+                var isValidFormat = /^[0-9]{12}$|^Empty$|^[0-9]{12}_upside-down$/.test(newName);
+                if (!isValidFormat) {
+                    alert("Invalid format! Please enter a 12-digit number, 'Empty', or a 12-digit number followed by '_upside-down'.");
+                    return;
+                }
+
                 // Display a confirmation dialog
                 if (confirm("Are you sure you want to save?")) {
                     // If user confirms, submit the form
